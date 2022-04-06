@@ -30,10 +30,8 @@ stages:
     steps:
     - task: CmdLine@2
       inputs:
-        script: |
-          mkdir $(System.DefaultWorkingDirectory)\target\dependency 
-          cd $(System.DefaultWorkingDirectory)\target\dependency
-          jar -xf ../*.jar
+        script: 'mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)'
+
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
