@@ -32,7 +32,10 @@ stages:
       inputs:
         script: 'mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)'
       enabled: false
-
+    - task: Bash@3
+      inputs:
+        filePath: '$(System.DefaultWorkingDirectory)/**/test/run.sh'
+        
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
