@@ -47,10 +47,7 @@ stages:
         publishJUnitResults: false
         jdkVersionOption: '1.11'
 
-    - task: PublishPipelineArtifact@1
-      displayName: 'Publish Pipeline Artifacts'
+    - task: Docker@2
       inputs:
-        targetPath: '$(buildFolderName)/'
-        artifact: $(buildArtifactName)
-        publishLocation: 'pipeline'
-        parallel: true
+        containerRegistry: 'rdwContainerRegistry'
+        command: 'push'
