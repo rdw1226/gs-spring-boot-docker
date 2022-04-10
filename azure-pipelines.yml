@@ -30,7 +30,7 @@ stages:
     steps:
     - task: Maven@3
       inputs:
-        mavenPomFile: 'pom.xml'
+        mavenPomFile: 'complete/pom.xml'
         mavenOptions: '-Xmx3072m'
         javaHomeOption: 'JDKVersion'
         jdkVersionOption: '1.11'
@@ -42,7 +42,7 @@ stages:
     - task: Maven@3
       displayName: Build Docker image
       inputs:
-        mavenPomFile: 'pom.xml'
+        mavenPomFile: 'complete/pom.xml'
         goals: 'spring-boot:build-image'
         publishJUnitResults: false
         jdkVersionOption: '1.11'
