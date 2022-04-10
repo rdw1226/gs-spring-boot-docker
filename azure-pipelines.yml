@@ -28,23 +28,25 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - task: CmdLine@2
+    - task: Maven@3
       inputs:
-        script: 'mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)'
-      enabled: false
-    - task: Bash@3
+        mavenPomFile: 'pom.xml'
+        mavenOptions: '-Xmx3072m'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.11'
+        jdkArchitectureOption: 'x64'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        goals: 'package'
+
+    - task: Maven@3
+      displayName: Build Docker image
       inputs:
-        filePath: '$(System.DefaultWorkingDirectory)/test/run.sh'
-        
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+        mavenPomFile: 'pom.xml'
+        goals: 'spring-boot:build-image'
+        publishJUnitResults: false
+        jdkVersionOption: '1.11'
+
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Pipeline Artifacts'
       inputs:
