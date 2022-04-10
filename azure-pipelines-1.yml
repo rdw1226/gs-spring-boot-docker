@@ -23,7 +23,7 @@ stages:
     - task: Bash@3
       inputs:
         targetType: 'inline'
-        script: 'docker build -t springio/gs-spring-boot-docker .'
+        script: 'docker build -t springio/gs-spring-boot-docker/complete .'
     - task: Docker@2
       displayName: Build an image
       inputs:
